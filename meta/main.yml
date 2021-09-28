@@ -1,0 +1,24 @@
+
+---
+
+galaxy_info:
+  role_name: munge
+  author: Toni Harzendorf
+  description: 'Install and configure MUNGE'
+  company: Helmholtz Centre for Environmental Research (UFZ)
+  license: MIT
+  min_ansible_version: 2.0
+
+  platforms:
+
+    - name: EL
+      versions:
+        - 7
+
+  galaxy_tags:
+    - slurm
+    - munge
+
+dependencies: []
+
+...
