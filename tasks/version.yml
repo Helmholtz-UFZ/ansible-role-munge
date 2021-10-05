@@ -1,0 +1,29 @@
+---
+
+- name: Get installed version of MUNGE.
+  command: '{{ __munge_daemon_path }} -V'
+  changed_when: no
+  check_mode: no
+  register: _munge_version
+
+- name: Set munge_version variable
+  set_fact:
+    munge_version: '{{ _munge_version.stdout.split()[0].split("-")[1] }}'
+
+- name: Set munge_version_major variable
+  set_fact:
+    munge_version_major: '{{ munge_version.split(".")[0] }}'
+
+- name: Set munge_version_minor variable
+  set_fact:
+    munge_version_minor: '{{ munge_version.split(".")[1] }}'
+
+- name: Set munge_version_major_minor variable
+  set_fact:
+    munge_version_major_minor: '{{ munge_version_major }}.{{ munge_version_minor }}'
+
+- name: Set munge_version_patch variable
+  set_fact:
+    munge_version_patch: '{{ munge_version.split(".")[2] }}'
+
+...

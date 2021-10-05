@@ -1,0 +1,11 @@
+---
+
+__munge_user_name: >-
+  {{ (munge_user | default({})).name | default('munge') }}
+
+__munge_group_name: >-
+  {{ (munge_user | default({})).group | default('munge') }}
+
+__munge_service: 'munge'
+
+...

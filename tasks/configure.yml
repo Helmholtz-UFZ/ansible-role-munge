@@ -1,0 +1,29 @@
+---
+
+- name: Make sure directories exist with correct permissions
+  file:
+    path: '{{ item.path | dirname }}'
+    owner: '{{ __munge_user_name }}'
+    group: '{{ __munge_group_name }}'
+    mode: '{{ item.mode }}'
+    state: directory
+  loop:
+    - { path: '{{ munge_key_file }}', mode: '0700' }
+    - { path: '{{ munge_log_file }}', mode: '0700' }
+    - { path: '{{ munge_seed_file }}', mode: '0700' }
+  loop_control:
+    label: "Checking Dir {{ item.path | dirname }} with mode {{ item.mode }}"
+
+- name: Copy munge sysconfig
+  template:
+    src: 'munge-{{ munge_version_major_minor }}_sysconfig_{{ ansible_os_family }}.j2'
+    dest: '{{ munge_sysconfig_file }}'
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart munge
+
+- import_tasks: key.yml
+  delegate_to: '{{ munge_key_host }}'
+
+...

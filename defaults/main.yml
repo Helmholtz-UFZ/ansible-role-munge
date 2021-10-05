@@ -1,0 +1,43 @@
+---
+
+# Whether to create a self-defined User
+munge_user_create: no
+
+# Comma seperated list of Repositories that can be enabled
+# For example: munge_enablerepo: "epel,ius"
+# Only used for Hosts of the RedHat family
+munge_enablerepo: ''
+
+# Comma seperated list of Repositories that can be disabled
+# For example: munge_disablerepo: "epel,ius"
+# Only used for Hosts of the RedHat family
+munge_disablerepo: ''
+
+# The host on which the munge-key shall be created
+# All Hosts will fetch their Key from this Host via synchronize module (rsync)
+# It is recommended to define this variable
+munge_key_host: '{{ ansible_play_hosts_all | first }}'
+
+# Whether MUNGE should log to syslog or not (applies --syslog flag)
+munge_syslog: no
+
+# Whether the --force flag should be applied
+munge_force: no
+
+# How many threads MUNGE should use
+munge_threads: 2
+
+# Whether the service should be enabled on boot
+munge_service_enabled: yes
+
+# A User that can be defined to run the munged-daemon
+# This User will only be created when munge_user_create is set to "yes"
+munge_user:
+   name: munge
+   group: munge
+   comment: 'Runs Uid N Gid Emporium'
+   shell: /sbin/nologin
+   create_home: no
+   system: yes
+
+...

@@ -1,0 +1,13 @@
+---
+
+- import_tasks: variables.yml
+
+- import_tasks: user.yml
+  when: munge_user_create | bool
+
+- include_tasks: 'setup-{{ ansible_os_family }}.yml'
+- import_tasks: version.yml
+- import_tasks: configure.yml
+- import_tasks: service.yml
+
+...

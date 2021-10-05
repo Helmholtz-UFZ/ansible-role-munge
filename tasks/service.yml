@@ -1,0 +1,38 @@
+---
+
+- name: Configure MUNGE systemd Service.
+  block:
+    - name: Ensure systemd override dir for munge exists
+      file:
+        path: '{{ __munge_systemd_override_dir }}'
+        owner: root
+        group: root
+        mode: 0755
+        state: directory
+
+    - name: Install munge service file
+      template:
+        src: munge_service.j2
+        dest: '{{ __munge_systemd_override_conf }}'
+        owner: root
+        group: root
+        mode: 0644
+      register: munge_systemd_service_file
+      notify: restart munge
+
+    - name: Reload systemd daemon
+      systemd:
+        daemon_reload: yes
+      when: munge_systemd_service_file.changed
+  when: >-
+    __munge_uses_systemd and
+    (munge_version_minor | int == 5 and munge_version_patch | int < 14)
+
+- name: Ensure Munge is enabled and running
+  service:
+    name: '{{ __munge_service }}'
+    enabled: '{{ munge_service_enabled }}'
+    state: started
+  register: _munge_service_started
+
+...

@@ -1,0 +1,45 @@
+---
+
+- name: Include OS-specific variables
+  include_vars: '{{ item }}'
+  with_first_found:
+    - files:
+        - '{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml'
+        - '{{ ansible_os_family }}.yml'
+
+- name: Define munge_packages.
+  set_fact:
+    munge_packages: '{{ __munge_packages | list }}'
+  when: munge_packages is not defined
+
+- name: Define munge_sysconfig_file.
+  set_fact:
+    munge_sysconfig_file: '{{ __munge_sysconfig_file }}'
+  when: munge_sysconfig_file is not defined
+
+- name: Define munge_key_file.
+  set_fact:
+    munge_key_file: '{{ __munge_key_file }}'
+  when: munge_key_file is not defined
+
+- name: Define munge_pid_file.
+  set_fact:
+    munge_pid_file: '{{ __munge_pid_file }}'
+  when: munge_pid_file is not defined
+
+- name: Define munge_socket_file.
+  set_fact:
+    munge_socket_file: '{{ __munge_socket_file }}'
+  when: munge_socket_file is not defined
+
+- name: Define munge_seed_file.
+  set_fact:
+    munge_seed_file: '{{ __munge_seed_file }}'
+  when: munge_seed_file is not defined
+
+- name: Define munge_log_file.
+  set_fact:
+    munge_log_file: '{{ __munge_log_file }}'
+  when: munge_log_file is not defined
+
+...

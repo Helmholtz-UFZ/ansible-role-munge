@@ -1,0 +1,38 @@
+# {{ ansible_managed }}
+# MUNGE configuration
+
+# Pass additional command-line options to munged.
+OPTIONS="
+{%- if munge_key_file is defined %}
+--key-file={{ munge_key_file }}
+{%- endif %}
+{%- if munge_force | bool %}
+ --force
+{%- endif %}
+{%- if munge_threads is defined %}
+ --num-threads={{ munge_threads }}
+{%- endif %}
+{%- if munge_syslog | bool and
+    munge_version_patch | int >= 11
+%}
+ --syslog
+{%- endif %}
+{%- if munge_pid_file is defined and
+    munge_pid_file != __munge_pid_file
+%}
+ --pid-file={{ munge_pid_file }}
+{%- endif %}
+{%- if munge_seed_file is defined and
+    munge_seed_file != __munge_seed_file and
+    munge_version_patch | int >= 13
+%}
+ --seed-file={{ munge_seed_file }}
+{%- endif %}
+{%- if munge_log_file is defined and
+    munge_log_file != __munge_log_file and
+    munge_version_patch | int >= 13 and
+    not munge_syslog | bool
+%}
+ --log-file={{ munge_log_file }}
+{%- endif %}
+"

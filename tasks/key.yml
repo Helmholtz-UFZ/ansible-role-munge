@@ -1,0 +1,42 @@
+---
+
+- name: Create a MUNGE Key
+  block:
+    - name: Check if {{ munge_key_file }} exists.
+      stat:
+        path: '{{ munge_key_file }}'
+      register: munge_key_stat
+      check_mode: no
+
+    - name: Define munge_keygen_script.
+      set_fact:
+        munge_keygen_script: >-
+          {{ (munge_version_major | int >= 0 and
+             munge_version_minor | int >= 5 and
+             munge_version_patch | int >= 14) |
+             ternary(__munge_kgs_new, __munge_kgs_old) }}
+      when: munge_keygen_script is not defined
+
+    - name: Create new key.
+      command: '{{ munge_keygen_script }}'
+      args:
+        creates: '{{ munge_key_file }}'
+      when: >-
+        munge_key_stat.stat.exists is defined and
+        munge_key_stat.stat.exists == False
+
+    - name: Make sure the key has the correct permissions.
+      file:
+        path: '{{ munge_key_file }}'
+        owner: '{{ __munge_user_name }}'
+        group: '{{ __munge_group_name }}'
+        mode: 0600
+  run_once: yes
+
+- name: Fetch the key from {{ munge_key_host }}
+  synchronize:
+    src: '{{ munge_key_file }}'
+    dest: '{{ munge_key_file }}'
+    mode: push
+
+...

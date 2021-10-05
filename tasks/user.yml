@@ -1,0 +1,20 @@
+---
+
+- name: Create munge group
+  group:
+    name: "{{ __munge_group_name }}"
+    gid: "{{ (munge_user | default({})).gid | default(omit) }}"
+    system: "{{ (munge_user | default({})).system | default('yes') }}"
+
+- name: Create munge user
+  user:
+    name: "{{ __munge_user_name }}"
+    comment: "{{ (munge_user | default({})).comment | default(omit) }}"
+    uid: "{{ (munge_user | default({})).uid | default(omit) }}"
+    group: "{{ (munge_user | default({})).group | default(omit) }}"
+    home: "{{ (munge_user | default({})).home | default(omit) }}"
+    create_home: "{{ (munge_user | default({})).create_home | default(munge_pid_file | dirname) }}"
+    shell: "{{ (munge_user | default({})).shell | default(omit) }}"
+    system: "{{ (munge_user | default({})).system | default('yes') }}"
+
+...

@@ -1,0 +1,11 @@
+---
+
+- name: Install MUNGE
+  yum:
+    name: '{{ munge_packages }}'
+    state: present
+    enablerepo: '{{ munge_enablerepo | default(omit, true) }}'
+    disablerepo: '{{ munge_disablerepo | default(omit, true) }}'
+  register: rh_munge_install_packages
+
+...

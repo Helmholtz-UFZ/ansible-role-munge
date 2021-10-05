@@ -1,0 +1,21 @@
+---
+
+__munge_packages:
+  - munge
+  - libmunge-dev
+
+__munge_kgs_old: /usr/sbin/create-munge-key
+__munge_kgs_new: /usr/sbin/mungekey
+__munge_daemon: munged
+__munge_daemon_path: '/usr/sbin/{{ __munge_daemon }}'
+__munge_key_file: /etc/munge/munge.key
+__munge_sysconfig_file: /etc/default/munge
+__munge_pid_file: /var/run/munged.pid
+__munge_socket_file: /var/run/munge.socket.2
+__munge_seed_file: /var/lib/munge/munged.seed
+__munge_log_file: /var/log/munge/munged.log
+__munge_uses_systemd: yes
+__munge_systemd_override_dir: '/etc/systemd/system/{{ __munge_service }}.service.d'
+__munge_systemd_override_conf: '{{ __munge_systemd_override_dir }}/override.conf'
+
+...
