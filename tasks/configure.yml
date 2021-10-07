@@ -24,6 +24,5 @@
   notify: restart munge
 
 - import_tasks: key.yml
-  delegate_to: '{{ munge_key_host }}'
 
 ...

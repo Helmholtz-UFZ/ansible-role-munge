@@ -2,12 +2,6 @@
 
 - name: Create a MUNGE Key
   block:
-    - name: Check if {{ munge_key_file }} exists.
-      stat:
-        path: '{{ munge_key_file }}'
-      register: munge_key_stat
-      check_mode: no
-
     - name: Define munge_keygen_script.
       set_fact:
         munge_keygen_script: >-
@@ -21,22 +15,34 @@
       command: '{{ munge_keygen_script }}'
       args:
         creates: '{{ munge_key_file }}'
-      when: >-
-        munge_key_stat.stat.exists is defined and
-        munge_key_stat.stat.exists == False
-
-    - name: Make sure the key has the correct permissions.
-      file:
-        path: '{{ munge_key_file }}'
-        owner: '{{ __munge_user_name }}'
-        group: '{{ __munge_group_name }}'
-        mode: 0600
+      register: _munge_key_created
   run_once: yes
+  delegate_to: '{{ munge_key_host }}'
 
-- name: Fetch the key from {{ munge_key_host }}
+- name: Synchronize key with {{ munge_key_host }}.
   synchronize:
     src: '{{ munge_key_file }}'
     dest: '{{ munge_key_file }}'
     mode: push
+  delegate_to: '{{ munge_key_host }}'
+  notify: restart munge
+  when: >-
+    not ansible_check_mode or
+    not _munge_key_created.changed | bool
+
+- name: Check if {{ munge_key_file }} exists.
+  stat:
+    path: '{{ munge_key_file }}'
+  register: _munge_key_stat
+
+- name: Make sure the key has the correct permissions.
+  file:
+    path: '{{ munge_key_file }}'
+    owner: '{{ __munge_user_name }}'
+    group: '{{ __munge_group_name }}'
+    mode: 0400
+  when: >-
+    not ansible_check_mode or
+    _munge_key_stat.stat.exists | bool
 
 ...

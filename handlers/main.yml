@@ -4,6 +4,6 @@
   service:
     name: '{{ __munge_service }}'
     state: restarted
-  when: not _munge_service_started.changed
+  when: not _munge_service_started.changed | bool
 
 ...
