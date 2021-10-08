@@ -35,4 +35,38 @@ OPTIONS="
 %}
  --log-file={{ munge_log_file }}
 {%- endif %}
+{%- if munge_origin_address is defined and
+    munge_origin_address | length > 0 and
+    munge_version_patch | int >= 14
+%}
+ --origin={{ munge_origin_address }}
+{%- endif %}
+{%- if munge_trusted_group is defined and
+    munge_trusted_group | length > 0 and
+    munge_version_patch | int >= 13
+%}
+ --trusted-group={{ munge_trusted_group }}
+{%- endif %}
+{%- if munge_max_ttl is defined and
+    munge_max_ttl | int > 0 and
+    munge_version_patch | int >= 12
+%}
+ --max-ttl={{ munge_max_ttl }}
+{%- endif %}
+{%- if munge_socket_file is defined and
+    munge_socket_file != __munge_socket_file
+%}
+ --socket={{ munge_socket_file }}
+{%- endif %}
+{%- if munge_mlockall is defined and
+    munge_mlockall | bool and
+    munge_version_patch | int >= 11
+%}
+ --mlockall
+{%- endif %}
+{%- if munge_verbose is defined and
+    munge_verbose | bool
+%}
+ --verbose
+{%- endif %}
 "

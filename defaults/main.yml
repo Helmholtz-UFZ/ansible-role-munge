@@ -24,11 +24,28 @@ munge_syslog: no
 # Whether the --force flag should be applied
 munge_force: no
 
-# How many threads MUNGE should use
+# How many threads MUNGE should use (--num-threads)
 munge_threads: 2
 
 # Whether the service should be enabled on boot
 munge_service_enabled: yes
+
+# Set --verbose option
+munge_verbose: no
+
+# Hostname, IPv4 address or interface name that should be set
+# via the --origin parameter
+munge_origin_address: ''
+
+# Trusted group for the --trusted-group parameter
+munge_trusted_group: ''
+
+# Value in seconds for the --max-ttl parameter
+# 0 means the --max-ttl option will not be set
+munge_max_ttl: 0
+
+# Whether the --mlockall parameter should be set
+munge_mlockall: no
 
 # A self-defined User entry
 # This User will only be created when munge_user_create is set to "yes"
@@ -42,5 +59,25 @@ munge_user:
    # home: path
    create_home: no
    system: yes
+
+# The following variables have default values depending on
+# the operating system used
+# Default values are taken from vars/{{ os_family }}.yml
+
+# Socket file that should be used (--socket)
+# munge_socket_file: path
+
+# PID file that should be used (--pid-file)
+# munge_pid_file: path
+
+# Key file that should be used (--key-file)
+# munge_key_file: path
+
+# Log file that should be used (--log-file)
+# Not used when the munge_syslog is set to 'yes'
+# munge_log_file: path
+
+# Packages that should be installed
+# munge_packages: path
 
 ...
