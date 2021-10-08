@@ -30,13 +30,16 @@ munge_threads: 2
 # Whether the service should be enabled on boot
 munge_service_enabled: yes
 
-# A User that can be defined to run the munged-daemon
+# A self-defined User entry
 # This User will only be created when munge_user_create is set to "yes"
 munge_user:
    name: munge
    group: munge
-   comment: 'Runs Uid N Gid Emporium'
+   # uid: int
+   # gid: int
+   comment: "Runs Uid 'N' Gid Emporium"
    shell: /sbin/nologin
+   # home: path
    create_home: no
    system: yes
 
