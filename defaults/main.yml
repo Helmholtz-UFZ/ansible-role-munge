@@ -60,6 +60,13 @@ munge_user:
    create_home: no
    system: yes
 
+# Use checksum instead to determine if file has changed
+# If 'yes', 'synchronize_archive' must be set to 'no'
+synchronize_checksum: no
+
+# Whether to use archive flag of rsync or not
+synchronize_archive: yes
+
 # The following variables have default values depending on
 # the operating system used
 # Default values are taken from vars/{{ os_family }}.yml

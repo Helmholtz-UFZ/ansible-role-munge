@@ -24,6 +24,8 @@
     src: '{{ munge_key_file }}'
     dest: '{{ munge_key_file }}'
     mode: push
+    checksum: '{{ synchronize_checksum }}'
+    archive: '{{ synchronize_archive }}'
   delegate_to: '{{ munge_key_host }}'
   notify: restart munge
   when: >-
