@@ -3,7 +3,6 @@
 __munge_packages:
   - munge
   - munge-libs
-  - munge-devel
 
 __munge_kgs_old: /usr/sbin/create-munge-key
 __munge_kgs_new: /usr/sbin/mungekey
