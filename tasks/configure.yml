@@ -1,7 +1,7 @@
 ---
 
 - name: Make sure directories exist with correct permissions
-  file:
+  ansible.builtin.file:
     path: '{{ item.path | dirname }}'
     owner: '{{ __munge_user_name }}'
     group: '{{ __munge_group_name }}'
@@ -15,7 +15,7 @@
     label: "Checking Dir {{ item.path | dirname }} with mode {{ item.mode }}"
 
 - name: Copy munge sysconfig
-  template:
+  ansible.builtin.template:
     src: 'munge-{{ munge_version_major_minor }}_sysconfig_{{ ansible_os_family }}.j2'
     dest: '{{ munge_sysconfig_file }}'
     owner: root

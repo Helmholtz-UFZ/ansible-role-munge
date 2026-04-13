@@ -3,7 +3,7 @@
 - name: Create a MUNGE Key
   block:
     - name: Define munge_keygen_script.
-      set_fact:
+      ansible.builtin.set_fact:
         munge_keygen_script: >-
           {{ (munge_version_major | int >= 0 and
              munge_version_minor | int >= 5 and
@@ -12,7 +12,7 @@
       when: munge_keygen_script is not defined
 
     - name: Create new key.
-      command: '{{ munge_keygen_script }}'
+      ansible.builtin.command: '{{ munge_keygen_script }}'
       args:
         creates: '{{ munge_key_file }}'
       register: _munge_key_created
@@ -20,7 +20,7 @@
   delegate_to: '{{ munge_key_host }}'
 
 - name: Synchronize key with {{ munge_key_host }}.
-  synchronize:
+  ansible.posix.synchronize:
     src: '{{ munge_key_file }}'
     dest: '{{ munge_key_file }}'
     mode: push
@@ -33,12 +33,12 @@
     not _munge_key_created.changed | bool
 
 - name: Check if {{ munge_key_file }} exists.
-  stat:
+  ansible.builtin.stat:
     path: '{{ munge_key_file }}'
   register: _munge_key_stat
 
 - name: Make sure the key has the correct permissions.
-  file:
+  ansible.builtin.file:
     path: '{{ munge_key_file }}'
     owner: '{{ __munge_user_name }}'
     group: '{{ __munge_group_name }}'

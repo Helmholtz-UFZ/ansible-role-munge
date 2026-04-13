@@ -1,7 +1,7 @@
 ---
 
 - name: Install MUNGE
-  yum:
+  ansible.builtin.yum:
     name: '{{ munge_packages }}'
     state: present
     enablerepo: '{{ munge_enablerepo | default(omit, true) }}'

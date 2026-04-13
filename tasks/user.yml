@@ -1,13 +1,13 @@
 ---
 
 - name: Create munge group
-  group:
+  ansible.builtin.group:
     name: "{{ __munge_group_name }}"
     gid: "{{ (munge_user | default({})).gid | default(omit) }}"
     system: "{{ (munge_user | default({})).system | default('yes') }}"
 
 - name: Create munge user
-  user:
+  ansible.builtin.user:
     name: "{{ __munge_user_name }}"
     comment: "{{ (munge_user | default({})).comment | default(omit) }}"
     uid: "{{ (munge_user | default({})).uid | default(omit) }}"
