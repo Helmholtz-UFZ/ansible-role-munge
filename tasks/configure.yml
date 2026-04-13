@@ -23,6 +23,7 @@
     mode: 0644
   notify: restart munge
 
-- import_tasks: key.yml
+- name: import key deployment tasks
+  ansible.builtin.include_tasks: 'key_{{ munge_key_deploy_method }}.yml'
 
 ...

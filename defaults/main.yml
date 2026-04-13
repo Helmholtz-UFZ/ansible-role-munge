@@ -18,6 +18,8 @@ munge_disablerepo: ''
 # It is recommended to define this variable
 munge_key_host: '{{ ansible_play_hosts_all | first }}'
 
+munge_key_deploy_method: sync
+
 # Whether MUNGE should log to syslog or not (applies --syslog flag)
 munge_syslog: no
 

@@ -1,0 +1,12 @@
+---
+
+- name: copy munge key to server
+  ansible.builtin.copy:
+    content: '{{ munge_key | ansible.builtin.b64decode }}'
+    dest: '{{ munge_key_file }}'
+    owner: '{{ __munge_user_name }}'
+    group: '{{ __munge_group_name }}'
+    mode: 0400
+  no_log: yes
+
+...
