@@ -32,6 +32,9 @@ munge_threads: 2
 # Whether the service should be enabled on boot
 munge_service_enabled: yes
 
+# Whether the service should be started
+munge_service_start: yes
+
 # Set --verbose option
 munge_verbose: no
 

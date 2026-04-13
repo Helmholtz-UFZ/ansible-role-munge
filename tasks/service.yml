@@ -32,7 +32,7 @@
   ansible.builtin.service:
     name: '{{ __munge_service }}'
     enabled: '{{ munge_service_enabled }}'
-    state: started
+    state: '{{ munge_service_start | ternary("started", "stopped") }}'
   register: _munge_service_started
 
 ...
