@@ -66,11 +66,11 @@ munge_user:
    system: yes
 
 # Use checksum instead to determine if file has changed
-# If 'yes', 'synchronize_archive' must be set to 'no'
-synchronize_checksum: no
+# If 'yes', 'munge_synchronize_archive' must be set to 'no'
+munge_synchronize_checksum: no
 
 # Whether to use archive flag of rsync or not
-synchronize_archive: yes
+munge_synchronize_archive: yes
 
 # The following variables have default values depending on
 # the operating system used
